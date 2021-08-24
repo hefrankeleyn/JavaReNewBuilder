@@ -24,9 +24,11 @@ public class FlatMapTest {
         Integer[][] aa = {{1, 2, 3},{3, 4}};
         List<Integer[]> pairs = Arrays.stream(aa[0])
                 .flatMap(i -> Arrays.stream(aa[1])
+                        .filter(j->(i+j)%3==0)
                         .map(j -> new Integer[]{i, j})
                 ).collect(Collectors.toList());
-        pairs.forEach(item-> System.out.println(Arrays.toString(item)));
+        pairs.forEach(item-> System.out.print(Arrays.toString(item)+" "));
+        System.out.println();
 
     }
 }

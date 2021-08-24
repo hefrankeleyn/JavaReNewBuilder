@@ -52,5 +52,118 @@ Integer[][] aa = {{1, 2, 3},{3, 4}};
                 ).collect(Collectors.toList());
 ```
 
+### 2.3 查找和匹配
+
+匹配
+
+- `anyMatch()` 检查是否至少匹配一个元素，返回boolean
+- `allMatch()` 检查是否匹配所有元素，返回boolean
+- `noneMath()` 流中没有任何元素与给定的判断匹配
+
+查找
+
+- `findAny()` 返回任意一个
+- `findFirst()` 查找第一个元素
+
+### 2.4 归约 reduce
+
+求和：
+
+```
+List<Integer> a = new ArrayList<>(Arrays.asList(3, 4, 5, 6, 8));
+Integer res = a.stream().reduce(0, (i, j) -> i + j);
+Integer res1 = a.stream().reduce(0, Integer::sum);
+Optional<Integer> res2 = a.stream().reduce(Integer::sum);
+System.out.println(res2.orElse(0));
+```
+
+最大值和最小值：
+
+```
+Optional<Integer> maxOptional = a.stream().reduce(Integer::max);
+System.out.println(maxOptional.orElse(0));
+Optional<Integer> minOptional = a.stream().reduce(Integer::min);
+System.out.println(minOptional.orElse(0));
+```
+
+使用流中内置的方法统计个数：
+
+```
+long count = a.stream().count();
+```
+
+### 2.5 数值流
+
+- 原始类型流特化：避免装箱成本。IntStream、DoubleStream、LongStream。
+- 映射为数值流： mapToInt() ，返回一个IntStream
+- 转回对象流：intStream.boxed()
+- 数值范围：通过数值流， intStream.range() 和 intStream.rangeClosed()
+
+### 2.6 创建流
+
+- 由值创建流
+
+  ```
+  Stream<Integer> stream = Stream.of(2, 3, 4, 5, 6);
+  ```
+
+- 由数组创建流
+
+  ```
+  Stream<Integer> stream1 = Arrays.stream(new Integer[]{3, 5, 6, 7});
+  ```
+
+- 由文件生成流
+
+  ```
+  // 由文件生成流
+          String filePath ="pom.xml";
+          try (Stream<String> fileStream = Files.lines(Paths.get(filePath), Charset.defaultCharset())){
+              long count = fileStream.flatMap(line -> Arrays.stream(line.split(" "))).count();
+              System.out.println(count);
+          } catch (IOException e) {
+              e.printStackTrace();
+          }
+  ```
+
+- 由函数生成流：创建无限流
+
+  - `Stream.iterate()`
+  - `Stream.generate()`
+
+  ```
+  // 打印前十个偶数
+  Stream.iterate(0, n->n+2).limit(10).forEach(System.out::println);
+  // 斐波那契数列
+  Stream.iterate(new Integer[]{0, 1}, a->new Integer[]{a[1], a[0]+a[1]})
+                  .limit(10).map(a->a[0]).forEach(k-> System.out.print(k+ " "));
+  ```
+
+  generate 生成
+
+  ```
+  Stream.generate(Math::random).limit(5).forEach(System.out::println);
+  // generate 产生斐波那契序列
+  IntStream.generate(new IntSupplier() {
+              private int pre = 0;
+              private int cur = 1;
+              @Override
+              public int getAsInt() {
+                  int oldPre = this.pre;
+                  int nexVal = this.pre + this.cur;
+                  this.pre = this.cur;
+                  this.cur = nexVal;
+                  return oldPre;
+              }
+          }).limit(10).forEach(k-> System.out.print(k+ " "));
+  ```
+
+  
+
+## 三、Optional和OptionalInt
+
+- `OPtional` 对象流返回值
+- `OptionalInt` 数值流返回值
+
 
 
