@@ -158,9 +158,126 @@ long count = a.stream().count();
           }).limit(10).forEach(k-> System.out.print(k+ " "));
   ```
 
-  
 
-## 三、Optional和OptionalInt
+## 三、流的收集器
+
+### 3.1 `collect`、`Collector`、`Collectors` 的区别
+
+-  `collect()` 触发归约操作
+- `Collector` 是接口。其方法的实现决定了如何对流进行归约
+- `Collectors` 提供了很多静态方法，可以很方便的创建常见的收集器；
+
+### 3.2 归约和汇总
+
+- `Collectors.counting()` 统计数量
+
+  ```
+  Long count = list.stream().collect(Collectors.counting());
+  long count1 = list.stream().count();
+  ```
+
+- `Collectors.maxBy()`和`Collectors.minBy()`  最大值和最小值
+
+  ```
+  Optional<String> maxOpt = list.stream().collect(Collectors.maxBy(String::compareTo));
+  Optional<String> minOpt = list.stream().collect(Collectors.minBy(String::compareTo));
+  ```
+
+- 汇总，求和、求平均
+
+  - `Collectors.summingInt()`
+  - `Collectors.summingDouble()`
+  - `Collectors.summingLong()`
+
+  求平均
+
+  - `Collectors.averagingInt()`
+  - `Collectors.averagingDouble()`
+  - `Collectors.averagingLong()`
+
+  ```
+  Integer sum = Arrays.stream(a).collect(Collectors.summingInt(Integer::intValue));
+  Double avg = Arrays.stream(a).collect(Collectors.averagingInt(Integer::intValue));
+  ```
+
+- 同时获得：最大值、最小值、平均值、和
+
+  - `Collectors.summarizingInt()`
+  - `Collectors.summarizingDouble()`
+  - `Collectors.summarizingLong()`
+
+  ```
+  IntSummaryStatistics summaryStatistics = Arrays.stream(a).collect(Collectors.summarizingInt(Integer::intValue));
+  ```
+
+- 连接字符：`Collectors.joining()`
+
+  ```
+  String res = list.stream().collect(Collectors.joining());
+  String res2 = list.stream().collect(Collectors.joining(","));
+  ```
+
+- 广义的归约汇总： `Collectors.reducing()`
+
+### 3.3 分组
+
+- `Collectors.groupingBy()`
+
+  ```
+  Map<Integer, List<Integer>> collect = Arrays.asList(a).stream().collect(Collectors.groupingBy(Integer::intValue));
+  Map<String, List<Integer>> collect2 = Arrays.asList(a).stream().collect(Collectors.groupingBy(item -> {
+              if (item > 3) {
+                  return "aa";
+              } else {
+                  return "bb";
+              }
+          }));
+  ```
+
+- `Collectors.groupingBy(Dish::getName(), Collectors.groupingBy(Dish::getType()))`
+
+- 传递给第一个groupingBy() 的第二个收集器可以是任何类型，而不一定是groupingBy()
+
+  - `Collectors.groupingBy(Dish::getName(), Collectors.counting())`
+
+  ```
+  Map<String, Long> collect1 = Arrays.asList(a).stream().collect(Collectors.groupingBy(item -> {
+              if (item > 3) {
+                  return "aa";
+              } else {
+                  return "bb";
+              }
+          }, Collectors.counting()));
+  ```
+
+- `collectingAndThen`将收集器的结果转换成另外一种结果
+
+  ```
+  Map<String, Dish> map1 = dishList.stream().collect(Collectors.groupingBy(Dish::getType,
+                  Collectors.collectingAndThen(Collectors.maxBy(Comparator.comparing(Dish::getName)),
+                          Optional::get)));
+  ```
+
+### 3.4 分区
+
+- `Collectors.partitioningBy()` 分组的特殊情况，将数据分为 true和false两组。
+
+```
+    // 判断一个数值是否为质数
+    private static boolean isPrime(int n) {
+        return IntStream.range(2, n).noneMatch(v-> n % v==0);
+    }
+
+    // 判断一个数值是否为质数   优化
+    private static boolean isPrime2(int n) {
+        int sqrt = (int)Math.sqrt(n);
+        return IntStream.rangeClosed(2, sqrt).noneMatch(v-> n % v==0);
+    }
+```
+
+
+
+## 其他、Optional和OptionalInt
 
 - `OPtional` 对象流返回值
 - `OptionalInt` 数值流返回值
