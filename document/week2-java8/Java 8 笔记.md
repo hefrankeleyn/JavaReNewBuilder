@@ -277,6 +277,8 @@ long count = a.stream().count();
 
 ### 3.5 收集器接口
 
+#### (1) `Collector` 接口
+
 `Collector<T,A,R>` : T 流的类型，A 为累加器类型，R为收集操作得到的类型；
 
 - `supplier()`: 建立新的结果容器; 建立空的累加器实例，供数据收集过程中使用；
@@ -287,6 +289,16 @@ long count = a.stream().count();
   - UNORDERED 归约结果不受流中项目的遍历和累积顺序的影响；
   - CONCURRENT 并行归约流，它仅在用于无序数据源时才可以并行归约；
   - IDENTIFY_FINISH  表明直接将累加器的结果作为最终结果
+
+第一个示例：[ToListCollector](https://github.com/hefrankeleyn/JavaReNewBuilder/blob/master/projects/pro02Java8/src/main/java/com/hef/stream/ToListCollector.java)
+
+#### (2) 使用stream.collect(supplier, accumulator, combiner)  的重载方法
+
+```
+ArrayList<String> res = list.stream().collect(ArrayList::new, List::add, List::addAll);
+```
+
+
 
 ## 其他、Optional和OptionalInt
 

@@ -14,7 +14,9 @@ import java.util.*;
 public class ToListCollector<T> implements Collector<T, List<T>, List<T>>{
 
     public static void main(String[] args) {
-
+        List<String> list = new ArrayList<>(Arrays.asList("aa", "bb", "cc"));
+        ArrayList<String> res = list.stream().collect(ArrayList::new, List::add, List::addAll);
+        System.out.println(res);
     }
 
     @Override
@@ -44,6 +46,6 @@ public class ToListCollector<T> implements Collector<T, List<T>, List<T>>{
     @Override
     public Set<Characteristics> characteristics() {
         return Collections.unmodifiableSet(EnumSet.of(Characteristics.IDENTITY_FINISH,
-                Characteristics.IDENTITY_FINISH));
+                Characteristics.CONCURRENT));
     }
 }
