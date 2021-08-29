@@ -439,7 +439,7 @@ if (任务足够小或不可分){
 
 ### 3.8 Spliterator 可分迭代器
 
-案例，创建一个切分字符串的Spliterator：[MyWordCountSpliterator]()
+案例，创建一个切分字符串的Spliterator：[MyWordCountSpliterator](https://gitee.com/lf-ren/java-re-new-builder/blob/master/projects/pro02Java8/src/main/java/com/hef/stream/MyWordCountSpliterator.java)
 
 
 
