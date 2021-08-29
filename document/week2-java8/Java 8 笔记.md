@@ -275,7 +275,18 @@ long count = a.stream().count();
     }
 ```
 
+### 3.5 收集器接口
 
+`Collector<T,A,R>` : T 流的类型，A 为累加器类型，R为收集操作得到的类型；
+
+- `supplier()`: 建立新的结果容器; 建立空的累加器实例，供数据收集过程中使用；
+- `accumulator()` ： 累加器
+- `finisher()`： 将累加器对象转换成为整个集合操作的最终结果；
+- `combiner`: 合并两个结果容器
+- `characterististics`: 返回一个不可变得Characterististics集合，定义了收集器的行为
+  - UNORDERED 归约结果不受流中项目的遍历和累积顺序的影响；
+  - CONCURRENT 并行归约流，它仅在用于无序数据源时才可以并行归约；
+  - IDENTIFY_FINISH  表明直接将累加器的结果作为最终结果
 
 ## 其他、Optional和OptionalInt
 
