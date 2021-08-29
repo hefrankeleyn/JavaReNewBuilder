@@ -300,6 +300,43 @@ long count = a.stream().count();
 ArrayList<String> res = list.stream().collect(ArrayList::new, List::add, List::addAll);
 ```
 
+### 3.6 并行数据处理与性能高
+
+#### （1）并行流与串行流的转化
+
+`parallel` ， 将串行流转化成并行流；
+
+`sequential` ，将并行流转化成并行流；
+
+parallel和sequential可以结合使用，在内部实际上是一个boolean标识，最后一次的parallel或sequential调用会影响整个流水线。
+
+#### （2）默认并行流线程池：`ForkJoinPool`
+
+- 默认线程数的数量就是处理器数量：`Runtime.getRuntime().availableProcessors()`
+
+- 可以通过系统属性,进行全局设置线程数：(没有好的理由，强烈不建议修改)
+
+  ```
+  System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "5");
+  ```
+
+### (3) 一个并行流的反例
+
+在下面的案例中，在实测中发现，此处的并行流比串行流慢很多。
+
+```
+    // 串行流
+    public long sequentialSum2(long n) {
+        return LongStream.iterate(1l, i->i+1l).limit(n).reduce(0l, Long::sum);
+    }
+    // 并行流
+    public long parallelSum(long n) {
+        return Stream.iterate(1l, i->i+1l).limit(n)
+                .parallel()
+                .reduce(0l, Long::sum);
+    }
+```
+
 
 
 ## 其他、Optional和OptionalInt
