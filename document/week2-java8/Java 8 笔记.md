@@ -421,7 +421,21 @@ if (任务足够小或不可分){
 
 在实际应用中，使用多个ForkJoinPool是没有意义的。一般来说，将其实例化一次，然后把实例保存在静态字段中，使之成为单例。
 
+一个ForkJoinPool的案例：[MyRecursiveSumTask](https://gitee.com/lf-ren/java-re-new-builder/blob/master/projects/pro02Java8/src/main/java/com/hef/stream/MyRecursiveSumTask.java)
 
+#### （3）使用分支合并框架的注意事项
+
+- `join()`方法会阻塞调用方，所以有必要在两个子任务的就算都开始之后再调用它；
+
+- 不应该在`RecursiveTask`内部调用`ForkJoinPool()`的`invoke`方法，应该始终调用 `fork()`或`compute（)`方法
+
+- 任务调用`fork()`方法可以把它排进`ForkJoinPool()`， 左右两个任务同时调用`fork()`的效率 比 让其中一个任务调用`compute()` 的效率低，这样做可以为其中一个子任务重用同一线程，避免在线程池多分配一个任务造成开销；
+
+- 分支/合并框架需要“预热”或者说要执行几遍才会被JIT编译器优化；
+
+- 划分成许多小任务而不是大任务，更有助于工作线程的负载平衡；
+
+  这其中使用了“工作窃取算法”：每个线程都有双端队列（保存分配给该线程的任务），某一个线程任务队列空了，会去其他任意一个线程任务队列中的末尾取一个任务。
 
 
 
