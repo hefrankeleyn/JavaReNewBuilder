@@ -292,6 +292,8 @@ long count = a.stream().count();
 
 第一个示例：[ToListCollector](https://github.com/hefrankeleyn/JavaReNewBuilder/blob/master/projects/pro02Java8/src/main/java/com/hef/stream/ToListCollector.java)
 
+第二个案例：[获取质数](https://github.com/hefrankeleyn/JavaReNewBuilder/blob/master/projects/pro02Java8/src/main/java/com/hef/stream/MyPrimCollector.java) ， 及对比 [对比两种获取质数的方法](https://github.com/hefrankeleyn/JavaReNewBuilder/blob/master/projects/pro02Java8/src/main/java/com/hef/stream/PrimMain.java)
+
 #### (2) 使用stream.collect(supplier, accumulator, combiner)  的重载方法
 
 ```
