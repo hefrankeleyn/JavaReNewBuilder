@@ -314,15 +314,19 @@ parallel和sequential可以结合使用，在内部实际上是一个boolean标�
 
 - 默认线程数的数量就是处理器数量：`Runtime.getRuntime().availableProcessors()`
 
+  availableProcessors 看起来是处理器，实际上返回的是可用内核的数量，包括超线程生成的虚拟内核。
+
 - 可以通过系统属性,进行全局设置线程数：(没有好的理由，强烈不建议修改)
 
   ```
   System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "5");
   ```
 
-### (3) 一个并行流的反例
+#### （3） 并行流的反例
 
-在下面的案例中，在实测中发现，此处的并行流比串行流慢很多。
+##### 反例一：使用不易并行化的操作导致，性能变差
+
+在下面的案例中，在实测中发现，此处的并行流比串行流慢很多。如果采用不易并行化的操作，可能会让程序的整体性能变得更差。
 
 ```
     // 串行流
@@ -331,11 +335,91 @@ parallel和sequential可以结合使用，在内部实际上是一个boolean标�
     }
     // 并行流
     public long parallelSum(long n) {
-        return Stream.iterate(1l, i->i+1l).limit(n)
+        return LongStream.iterate(1l, i->i+1l).limit(n)
                 .parallel()
                 .reduce(0l, Long::sum);
     }
 ```
+
+将上面案例改为使用 range , 将得到并行的效率高于串行：
+
+```
+    // 串行
+    public long sequentialSum3(long n) {
+        return LongStream.rangeClosed(1l, n).limit(n).reduce(0l, Long::sum);
+    }
+    
+    //  并行
+    public long parallelSum3(long n) {
+        return LongStream.rangeClosed(1l, n).limit(n)
+                .parallel()
+                .reduce(0l, Long::sum);
+    }
+```
+
+##### 反例二：使用共享变量导致结果错误
+
+```
+    class Accumulator {
+        public long total = 0;
+        public void add(long value) {
+            total += value;
+        }
+    }
+    
+    public long sideEffectParallelSum(long n) {
+        Accumulator accumulator = new Accumulator();
+        LongStream.rangeClosed(1l, n).parallel().forEach(accumulator::add);
+        return accumulator.total;
+    }
+```
+
+#### （4）何时使用并行流
+
+- 留意装箱；
+- 需要流中的n个元素，而不是前n个；
+- 估算：N个元素，处理每个元素的成本为Q，Q越大，并行处理的性能好的可能行更大；
+- 对于较小的数据量，不建议使用并行流；
+- 考虑数据结构是否更容易分解；
+- 考虑并行流处理的合并时的成本；
+
+可分解性：
+
+| 数据结构        | 可分解性 |
+| --------------- | -------- |
+| ArrayList       | 极好     |
+| LinkedList      | 极差     |
+| IntStream.range | 极好     |
+| Stream.iterator | 极好     |
+| HashSet         | 好       |
+| TreeSet         | 好       |
+
+### 3.7 分支/合并框架
+
+它是ExecutorService 接口的实现。把子任务分配给线程池（ForkJoinPool）。
+
+**分治算法的并行版本。**
+
+#### （1）创建`RecursiveTask<R> ` 或`RecursiveAction`的子类
+
+只需要实现其唯一的抽象方法`compute`：
+
+- 定义将任务拆分为子任务的逻辑；
+- 以及无法再拆分时，生成单个子任务结果的逻辑；
+
+```
+if (任务足够小或不可分){
+   顺序计算该任务
+}else {
+   将任务分成两个子任务
+   递归调用本方法，拆分每个子任务，等待所有子任务完成
+   合并每个子任务的结果
+}
+```
+
+
+
+
 
 
 

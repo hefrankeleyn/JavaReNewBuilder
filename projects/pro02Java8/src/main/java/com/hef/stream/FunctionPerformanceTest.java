@@ -20,10 +20,25 @@ public class FunctionPerformanceTest {
         System.out.println("Parallel sum done in " +
                 performanceTest.measureSumPerf(performanceTest::parallelSum, 10_000_000));
 
-        System.out.println("Sequential sum done in " +
+        System.out.println("Sequential2 sum done in " +
                 performanceTest.measureSumPerf(performanceTest::sequentialSum2, 10_000_000));
-        System.out.println("Parallel sum done in " +
+        System.out.println("Parallel2 sum done in " +
                 performanceTest.measureSumPerf(performanceTest::parallelSum2, 10_000_000));
+
+        System.out.println("Sequential3 sum done in " +
+                performanceTest.measureSumPerf(performanceTest::sequentialSum3, 10_000_000));
+        System.out.println("Parallel3 sum done in " +
+                performanceTest.measureSumPerf(performanceTest::parallelSum3, 10_000_000));
+
+
+        System.out.println("SideEffect sum done in " +
+                performanceTest.measureSumPerf(performanceTest::sideEffectSum, 10_000_000));
+
+        System.out.println("SideEffectParallelSum sum done in " +
+                performanceTest.measureSumPerf(performanceTest::sideEffectParallelSum, 10_000_000));
+
+        System.out.println("ForkJoin sum done in : "
+                + performanceTest.measureSumPerf(ForkJoinMain::forkJoinSum, 10_000_000));
     }
 
     public long sequentialSum(long n) {
@@ -32,6 +47,10 @@ public class FunctionPerformanceTest {
 
     public long sequentialSum2(long n) {
         return LongStream.iterate(1l, i->i+1l).limit(n).reduce(0l, Long::sum);
+    }
+
+    public long sequentialSum3(long n) {
+        return LongStream.rangeClosed(1l, n).limit(n).reduce(0l, Long::sum);
     }
 
     /**
@@ -51,6 +70,32 @@ public class FunctionPerformanceTest {
                 .reduce(0l, Long::sum);
     }
 
+    public long parallelSum3(long n) {
+        return LongStream.rangeClosed(1l, n).limit(n)
+                .parallel()
+                .reduce(0l, Long::sum);
+    }
+
+    public long sideEffectSum(long n) {
+        Accumulator accumulator = new Accumulator();
+        LongStream.rangeClosed(1l, n).forEach(accumulator::add);
+        return accumulator.total;
+    }
+
+    public long sideEffectParallelSum(long n) {
+        Accumulator accumulator = new Accumulator();
+        LongStream.rangeClosed(1l, n).parallel().forEach(accumulator::add);
+        return accumulator.total;
+    }
+
+
+    class Accumulator {
+        public long total = 0;
+        public void add(long value) {
+            total += value;
+        }
+    }
+
     /**
      * 测试求和的性能
      * @param adder
@@ -63,7 +108,7 @@ public class FunctionPerformanceTest {
             long start = System.nanoTime();
             Long res = adder.apply(n);
             long during = (System.nanoTime() - start)/1_000_000;
-//            System.out.println("result: " + res);
+            System.out.println("result: " + res);
             if (fastest>during) fastest = during;
 
         }
