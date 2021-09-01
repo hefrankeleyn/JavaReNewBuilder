@@ -162,7 +162,7 @@ ComputableFuture 可以调整线程池大小。所以建议：
     }
 ```
 
-####（3）`thenCompose` 和 `thenComposeAsync`
+#### （3）`thenCompose` 和 `thenComposeAsync`
 
 第二个任务需要等第一个任务完结。
 
