@@ -1,5 +1,7 @@
 package com.hef.future;
 
+import com.hef.future.demo2.Discount;
+
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;

@@ -162,3 +162,54 @@ ComputableFuture 可以调整线程池大小。所以建议：
     }
 ```
 
+####（3）`thenCompose` 和 `thenComposeAsync`
+
+第二个任务需要等第一个任务完结。
+
+thenComposeAsync方法会将后继的任务提交到一个线程池。thenCompose的方法和它前一个任务一样，在同一个线程中运行。
+
+```
+        List<CompletableFuture<String>> futureList = shopList.stream()
+                // 以异步的方式获取每个shop中指定产品的原始价格
+                .map(stop -> CompletableFuture.supplyAsync(() -> stop.getPrice(product), executor))
+                .map(future -> future.thenApply(Quote::parse))
+                // thenCompose 将两个 异步操作进行流水线
+                .map(future -> future.thenCompose(
+                        quote -> CompletableFuture.supplyAsync(() -> Discount.applyDiscount(quote), executor))
+                ).collect(Collectors.toList());
+        return futureList.stream().map(CompletableFuture::join).collect(Collectors.toList());
+```
+
+#### （4）`thenCombine` 和 `thenCombineAsync`
+
+第二个任务不需要等待第一个任务完结，这两个任务互不相干。
+
+- thenCombine或thenCombineAsync的第二个参数BiFunction定义了，当两个CompletableFuture对象完成计算后，结果如何合并。
+
+thenCombineAsync会导致BiFunction中定义的合并操作被提交到线程池中，由另一个任务以异步的方式执行。
+
+```
+        List<CompletableFuture<Double>> futureList = shopList.stream()
+                .map(shop -> CompletableFuture.supplyAsync(() -> shop.calculatePrice(productName)))
+                .map(future->future.thenCombine(CompletableFuture.supplyAsync(()->getRate()), (price, rate)->price*rate))
+                .collect(Collectors.toList());
+        return futureList.stream().map(CompletableFuture::join).collect(Collectors.toList());
+```
+
+#### （5）`thenAccept`、`allOf`、`anyOf`
+
+有返回值时，立刻执行。
+
+- thenAccept， 获取到结果立刻执行
+- allOf 等待所有的结果执行完
+- anyOf 得到任何一个结果，程序结束
+
+```
+        Stream<CompletableFuture<String>> futureStream = shopList.stream().map(shop -> CompletableFuture.supplyAsync(() -> shop.getPrice(productName)))
+                .map(future -> future.thenApply(Quote::parse))
+                .map(future -> future.thenCompose(quote -> CompletableFuture.supplyAsync(() -> Discount.applyDiscount(quote))));
+        CompletableFuture[] completableFutures = futureStream.map(future -> future.thenAccept(System.out::println)).toArray(size -> new CompletableFuture[size]);
+//        CompletableFuture.allOf(completableFutures).join();
+        CompletableFuture.anyOf(completableFutures).join();
+```
+
