@@ -213,3 +213,5 @@ thenCombineAsync会导致BiFunction中定义的合并操作被提交到线程池
         CompletableFuture.anyOf(completableFutures).join();
 ```
 
+示例代码：[FutureMain2](https://gitee.com/lf-ren/java-re-new-builder/blob/master/projects/pro02Java8/src/main/java/com/hef/future/demo2/FutureMain2.java)
+
