@@ -23,9 +23,9 @@
 
 [MyQueue](https://gitee.com/lf-ren/java-re-new-builder/blob/master/projects/pro02Java8/src/main/java/com/hef/algorithm/MyQueue.java)
 
-####  （2）二叉树：用数组实现一个二叉树
+####  （2）二分查询树
 
-#### （3）1.2 二叉搜索树：
+[二分查询树](https://gitee.com/lf-ren/java-re-new-builder/blob/master/projects/pro03Algorithm/src/main/java/com/hef/tree/BinarySearchTree.java)
 
 #### （4） 1.3 AVL树
 

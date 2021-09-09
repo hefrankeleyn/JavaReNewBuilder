@@ -77,10 +77,16 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         System.out.println();
     }
 
+    /**
+     * 中序遍历
+     * 对于二分查询树来说，中序排序是有序的
+     * @param node
+     */
     public void search(Node node) {
         if (node==null) return;
         search(node.left);
-        System.out.print(node.key + ":" + node.val + ", ");
+//        System.out.print(node.key + ":" + node.val + ", ");
+        System.out.print(node.key + ":" + node.val + ":" + size(node) + ", ");
 //        System.out.print(node.key + ", ");
         search(node.right);
     }
