@@ -27,11 +27,45 @@
 
 [二分查询树](https://gitee.com/lf-ren/java-re-new-builder/blob/master/projects/pro03Algorithm/src/main/java/com/hef/tree/BinarySearchTree.java)
 
-#### （4） 1.3 AVL树
+#### （3）  AVL树：平衡二叉树
 
-#### （5） 2-3 平衡树（B树）
+[平衡二叉树](https://gitee.com/lf-ren/java-re-new-builder/tree/master/projects/pro03Algorithm/src/main/java/com/hef/tree/AVLTree.java)，关键是左旋和右旋的操作：
 
-#### （6） 红黑树
+```
+    /**
+     * 向左旋转
+     * @param h
+     * @return
+     */
+    public Node rotateLeft(Node h) {
+        Node x = h.right;
+        h.right = x.left;
+        x.left = h;
+        x.N = h.N;
+        h.N = size(h.left) + size(h.right) + 1;
+        return x;
+    }
+    
+    /**
+     * 向右旋转
+     * @param h
+     * @return
+     */
+    public Node rotateRight(Node h) {
+        Node x = h.left;
+        h.left = x.right;
+        x.right = h;
+        x.N = h.N;
+        h.N = size(h.left) + size(h.right) + 1;
+        return x;
+    }
+```
+
+![002AVLTree01](./photos/002AVLTree01.png)
+
+![002AVLTree02](./photos/002AVLTree02.png)
+
+#### （4） 红黑树
 
 ### 1.2 动态规划
 
