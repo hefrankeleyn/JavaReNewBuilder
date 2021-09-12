@@ -71,7 +71,7 @@ public class SubListTest {
      * @return
      */
     public static int factorialRecursive(int n) {
-        return n==1? 1 : n * factorialIterator(n-1);
+        return n==1? 1 : n * factorialRecursive(n-1);
     }
 
     /**
