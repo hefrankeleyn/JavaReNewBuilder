@@ -67,6 +67,8 @@
 
 #### （4） 红黑树
 
+[平衡查询树：从2-3 search Tree 到 红黑树](https://gitee.com/lf-ren/java-re-new-builder/blob/master/document/2021-09-22-%E5%B9%B3%E8%A1%A1%E6%9F%A5%E8%AF%A2%E6%A0%91%EF%BC%9A%E4%BB%8E2-3%20search%20Tree%20%E5%88%B0%20%E7%BA%A2%E9%BB%91%E6%A0%91.md)
+
 ### 1.2 动态规划
 
 #### （1）斐波拉契序列
