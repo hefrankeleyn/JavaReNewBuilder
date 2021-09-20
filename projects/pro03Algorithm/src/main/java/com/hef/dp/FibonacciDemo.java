@@ -10,8 +10,8 @@ public class FibonacciDemo {
     public static void main(String[] args) {
         // 0,  1, 2, 3, 5, 8, 13, 21, 34, 65
         int n = 9;
-        int res = solve01(n);
-        System.out.println(res);
+//        int res = solve01(n);
+//        System.out.println(res);
         for (int i = 0; i <= n; i++) {
             int res2 = solve02(i);
             System.out.print(res2+", ");
@@ -20,6 +20,7 @@ public class FibonacciDemo {
 
         int res3 = solve03(n);
         System.out.println(res3);
+        System.out.println(solve04(n));
     }
 
     /**
@@ -58,6 +59,17 @@ public class FibonacciDemo {
         if (n<=2) return n;
         int x=1, y=2, res=0;
         for (int i=3; i<=n; i++) {
+            res = x + y;
+            x = y;
+            y = res;
+        }
+        return res;
+    }
+
+    public static int solve04(int n) {
+        if (n<=1) return n;
+        int x=1, y=1, res=0;
+        for (int i=2; i<=n; i++) {
             res = x + y;
             x = y;
             y = res;
