@@ -93,13 +93,13 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
 
 
     public static void main(String[] args) {
-        BinarySearchTree<Integer, String> binarySearchTree = new BinarySearchTree<>();
+        BinarySearchTree<Integer, String> bst = new BinarySearchTree<>();
         Random random = new Random(23);
         for (int i = 0; i < 21; i++) {
             int key = random.nextInt(23);
             int value = random.nextInt(100);
-            binarySearchTree.put(key, value+"");
+            bst.put(key, value+"");
         }
-        binarySearchTree.search();
+        bst.search();
     }
 }

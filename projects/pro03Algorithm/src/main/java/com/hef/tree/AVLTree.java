@@ -142,18 +142,31 @@ public class AVLTree<Key extends Comparable<Key>, Value> {
 
 
     public static void main(String[] args) {
-        AVLTree<Integer, String> avlTree = new AVLTree<>();
-//        avlTree.put(6, "aa");
-        avlTree.put(5, "aa");
-        avlTree.put(4, "bb");
-        avlTree.put(3, "ee");
-        avlTree.put(2, "ee");
-        avlTree.put(1, "ee");
-        avlTree.put(0, "ee");
+//        BinarySearchTree<Integer, String> bst = new BinarySearchTree<>();
+        AVLTree<Integer, String> bst = new AVLTree<>();
+        Integer[] keys = createKeys(9);
+        for (Integer k: keys) {
+            bst.put(k, k+"aaa");
+        }
+        System.out.println(bst);
+        System.out.println("Size: " + bst.size());
+        Integer k = 1;
+        long start = System.nanoTime();
+        String oneV = bst.get(k);
+        long end = System.nanoTime();
+        // aaa1:aaa1, 14s
+        // 1:1aaa, 72s
+        System.out.println(String.format("%s:%s, %d", k, oneV, (end-start)/1000));
 
-//        System.out.println(avlTree.get(2));
-        avlTree.bfs(avlTree.root);
+    }
 
+    private static Integer[] createKeys(int num) {
+        Integer[] keys = new Integer[num];
+        for (int i = 0; i < num; i++) {
+            keys[i] = i;
+        }
+//        shuffle(keys);
+        return keys;
     }
 
 
