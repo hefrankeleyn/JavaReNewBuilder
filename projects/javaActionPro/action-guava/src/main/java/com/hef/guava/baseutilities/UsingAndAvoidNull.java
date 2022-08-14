@@ -4,6 +4,7 @@ package com.hef.guava.baseutilities;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
 import com.google.common.base.Strings;
+import com.google.common.collect.Ordering;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +21,15 @@ public class UsingAndAvoidNull {
         UsingAndAvoidNull item = new UsingAndAvoidNull();
 //        item.optionalTest();
 //        item.stringNullTest();
-        item.preconditionTest(3, 5);
+//        item.preconditionTest(3, 5);
+        Optional<String> optional = Optional.<String>absent();
+        boolean present = optional.isPresent();
+        System.out.println(present);
+        String s = optional.orNull();
+        System.out.println(s);
+        Set<String> strings = optional.asSet();
+        System.out.println(strings);
+        Ordering<Object> objectOrdering = Ordering.usingToString();
     }
 
     public void optionalTest() {

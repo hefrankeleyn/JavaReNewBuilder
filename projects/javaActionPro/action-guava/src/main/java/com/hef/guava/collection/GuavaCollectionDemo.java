@@ -1,12 +1,17 @@
 package com.hef.guava.collection;
 
+import com.google.common.base.CaseFormat;
+import com.google.common.base.CharMatcher;
 import com.google.common.collect.*;
 import com.google.common.primitives.Ints;
+import com.google.common.util.concurrent.JdkFutureAdapters;
+import com.google.common.util.concurrent.ListenableFutureTask;
 import com.hef.guava.beans.TypeThatsTooLongForItsOwnGood;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import javax.annotation.CheckForNull;
 import java.util.*;
+import java.util.concurrent.ForkJoinPool;
 
 /**
  * @Date 2022/7/18
@@ -15,7 +20,30 @@ import java.util.*;
 public class GuavaCollectionDemo {
 
     public static void main(String[] args) {
-        GuavaCollectionDemo demo = new GuavaCollectionDemo();
+//        immutableTest();
+//        multisetDemo();
+        ListMultimap<String, Integer> multimap = MultimapBuilder.hashKeys().arrayListValues().build();
+//        ArrayListMultimap<@Nullable Object, @Nullable Object> multimap02 = ArrayListMultimap.create();
+        List<Integer> list = multimap.get("name");
+        list.add(1);
+        multimap.put("age", 23);
+        System.out.println(multimap.get("name"));
+        System.out.println(multimap.containsKey("name"));
+        Multiset<String> keys = multimap.keys();
+        System.out.println(keys.count("name"));
+        System.out.println(keys);
+        Set<String> strings = multimap.keySet();
+        System.out.println(strings);
+        Collection<Integer> values = multimap.values();
+        System.out.println(values);
+        Iterable<Integer> concat = Iterables.concat(multimap.asMap().values());
+        ImmutableTable<Object, Object, Object> table =
+                ImmutableTable.builder().build();
+        MutableClassToInstanceMap<Object> objectMutableClassToInstanceMap = MutableClassToInstanceMap.create();
+        String res = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, "helloWorld");
+        System.out.println(res);
+
+//        GuavaCollectionDemo demo = new GuavaCollectionDemo();
 //        demo.multisetTest();
 //        demo.sortedMultisetTest();
 //        demo.multimapTest();
@@ -36,7 +64,41 @@ public class GuavaCollectionDemo {
 //        demo.multimapsTest();
 //        demo.tablesTest();
 //        demo.peekIteratorTest();
-        demo.sequentialIteratorTest();
+//        demo.sequentialIteratorTest();
+    }
+
+    private static void multisetDemo() {
+        HashMultiset<String> multiset = HashMultiset.<String>create();
+        multiset.addAll(Arrays.asList("aa", "bb", "aa", "aa", "bb"));
+        multiset.setCount("c", 5);
+        multiset.remove("c", 4);
+        Iterator<String> iterator = multiset.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+        System.out.println(multiset.size());
+        System.out.println(multiset.count("aa"));
+        Set<Multiset.Entry<String>> entries = multiset.entrySet();
+        System.out.println(entries);
+        System.out.println(multiset.elementSet());
+    }
+
+    private static void immutableTest() {
+        List<String> list = new ArrayList<>();
+        list.add("aaa");
+        list.add("bbb");
+        List<String> list02 = Collections.unmodifiableList(list);
+        ImmutableList<String> list03 = ImmutableList.copyOf(list);
+        System.out.println(list02); // [aaa, bbb]
+        System.out.println("list03:" + list03);  // list03:[aaa, bbb]
+        list.add("ccc");
+        System.out.println(list02); // [aaa, bbb, ccc]
+        System.out.println("list03:" + list03); // list03:[aaa, bbb]
+        ImmutableList<String> list04 = ImmutableList.<String>of("aa", "bb", "cc");
+        System.out.println(list04);
+        ImmutableList<String> build = ImmutableList.<String>builder().add("aa").add("cc").add("ff").build();
+        ImmutableSet<String> set = ImmutableSet.<String>builder().add("aa").add("cc").build();
+        ImmutableList<String> strings = set.asList();
     }
 
     private void sequentialIteratorTest() {
