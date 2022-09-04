@@ -9,27 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>action-guava</artifactId>
+    <artifactId>action-algorithms</artifactId>
 
     <properties>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-<!--        <guava.version>31.1-jre</guava.version>-->
-        <lombok.version>1.18.24</lombok.version>
     </properties>
-
-    <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>com.google.guava</groupId>-->
-<!--            <artifactId>guava</artifactId>-->
-<!--            <version>${guava.version}</version>-->
-<!--        </dependency>-->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-        </dependency>
-
-    </dependencies>
 
 </project>
