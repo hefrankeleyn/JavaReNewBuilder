@@ -13,7 +13,9 @@ public class ReviewSortMain {
 
     public static void main(String[] args) {
         Integer[] a = new Integer[]{5, 1, 9, 0, 1, 5, 7, 3, 2};
+//        Integer[] a = new Integer[]{5, 1};
         ReviewSort<Integer> sort = new ReviewSelectorSort<>();
+//        ReviewSort<Integer> sort = new ReviewHeapSort<>();
         System.out.println(Arrays.toString(a));
         sort.sort(a);
         System.out.println(Arrays.toString(a));
