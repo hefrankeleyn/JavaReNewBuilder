@@ -11,6 +11,7 @@
     <modules>
         <module>action-guava</module>
         <module>action-algorithms</module>
+        <module>action-design-patterns</module>
     </modules>
 
     <properties>
