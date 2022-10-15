@@ -14,8 +14,9 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <poi.version>3.17</poi.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
-        <junit.version>4.13.1</junit.version>
-        <commons-collections4.version>4.2</commons-collections4.version>
+        <junit.version>4.13.2</junit.version>
+        <commons-collections4.version>4.4</commons-collections4.version>
+        <guava.version>31.1-jre</guava.version>
     </properties>
 
     <dependencies>
@@ -40,6 +41,12 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
             <version>${commons-collections4.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
 
         <dependency>

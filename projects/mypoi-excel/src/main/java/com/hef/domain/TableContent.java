@@ -1,5 +1,7 @@
 package com.hef.domain;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.collect.Range;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 
 /**
@@ -19,6 +21,20 @@ public class TableContent {
 
     // 前几列合并单元格
     private int mergeBeforeColNums;
+
+    /**
+     * 这个表格的：从第几行到第几行。
+     * 用于对复杂的单元格进行合并, 需要和 colRange 配合使用。
+     * 范围从 1 开始
+     */
+    private Range<Integer> rowRange;
+
+    /**
+     * 这个表格的：从第几列到第几列
+     * 用于对复杂的单元格进行合并， 需要和 rowRange 配合使用 ：
+     */
+    private Range<Integer> colRange;
+
 
     // 标题居中、居左的样式
     private HorizontalAlignment titleAlignment;
@@ -76,5 +92,33 @@ public class TableContent {
         this.table = table;
     }
 
+    public Range<Integer> getRowRange() {
+        return rowRange;
+    }
 
+    public void setRowRange(Range<Integer> rowRange) {
+        this.rowRange = rowRange;
+    }
+
+    public Range<Integer> getColRange() {
+        return colRange;
+    }
+
+    public void setColRange(Range<Integer> colRange) {
+        this.colRange = colRange;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(TableContent.class)
+                .add("title", title)
+                .add("table", table)
+                .add("columnWidthsBase256", columnWidthsBase256)
+                .add("mergeBeforeColNums", mergeBeforeColNums)
+                .add("rowRange", rowRange)
+                .add("colRange", colRange)
+                .add("titleAlignment", titleAlignment)
+                .add("titleBGColor", titleBGColor)
+                .toString();
+    }
 }
