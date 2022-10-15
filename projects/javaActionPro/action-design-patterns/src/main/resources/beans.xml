@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+    <bean id="productInfo" class="com.hef.review.designpatterns.creational.di.beans.ProductInfo">
+        <constructor-arg type="String" value="P01"/>
+        <constructor-arg type="int" value="200"/>
+    </bean>
+    <bean id="productSell" class="com.hef.review.designpatterns.creational.di.beans.ProductSell">
+        <constructor-arg ref="productInfo"/>
+    </bean>
+</beans>
