@@ -1,4 +1,4 @@
-package com.hef.review.designpatterns.creational.di.beans;
+package com.hef.review.designpatterns.creational.di;
 
 import java.io.InputStream;
 import java.util.List;

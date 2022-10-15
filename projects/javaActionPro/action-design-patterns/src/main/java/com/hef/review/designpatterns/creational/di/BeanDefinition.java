@@ -1,4 +1,4 @@
-package com.hef.review.designpatterns.creational.di.beans;
+package com.hef.review.designpatterns.creational.di;
 
 import java.util.ArrayList;
 import java.util.List;

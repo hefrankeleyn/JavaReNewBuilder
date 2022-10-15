@@ -1,4 +1,4 @@
-package com.hef.review.designpatterns.creational.di.beans;
+package com.hef.review.designpatterns.creational.di;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
