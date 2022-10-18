@@ -1,4 +1,4 @@
-package com.hef.review.designpatterns.structural.proxy.dynamicproxy;
+package com.hef.review.designpatterns.structural.proxy.dynamicproxy.jdk;
 
 import java.lang.reflect.Proxy;
 

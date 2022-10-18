@@ -1,4 +1,4 @@
-package com.hef.review.designpatterns.structural.proxy.dynamicproxy;
+package com.hef.review.designpatterns.structural.proxy.dynamicproxy.jdk;
 
 /**
  * 主题的一个实现
