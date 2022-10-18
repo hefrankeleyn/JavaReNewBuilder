@@ -11,7 +11,11 @@ import java.util.List;
 public class AdapterDemo {
 
     public static void main(String[] args) {
-        iteratorAdapteeEnumeration();
+//        iteratorAdapteeEnumeration();
+        // 类适配
+        Adapter adapter = new Adapter();
+        adapter.b2();
+        adapter.b1();
     }
 
     /**
