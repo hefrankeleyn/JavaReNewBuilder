@@ -1,4 +1,4 @@
-package com.hef.review.designpatterns.behavioral.state;
+package com.hef.review.designpatterns.behavioral.state.version01;
 
 /**
  * 糖果售货机
@@ -96,6 +96,4 @@ public class GumballMachine {
             System.out.println("没有糖果售出");
         }
     }
-
-
 }

@@ -1,6 +1,7 @@
-package com.hef.review.designpatterns.behavioral.state;
+package com.hef.review.designpatterns.behavioral.state.version01;
 
 /**
+ * 测试状态模式
  * @Date 2022/10/25
  * @Author lifei
  */
@@ -29,7 +30,5 @@ public class GumballMachineTestDrive {
         gumballMachine.turnCrank();
         gumballMachine.insertQuarter();
         gumballMachine.turnCrank();
-
-
     }
 }
