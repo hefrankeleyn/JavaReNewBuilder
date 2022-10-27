@@ -3,9 +3,6 @@ package com.hef.review.designpatterns.behavioral.state.game;
 import com.google.common.base.MoreObjects;
 import com.hef.review.designpatterns.behavioral.state.game.state.*;
 
-import static com.hef.review.designpatterns.behavioral.state.game.MarioEvent.*;
-import static com.hef.review.designpatterns.behavioral.state.game.MarioEvent.MET_MONSTER;
-
 /**
  * 状态模式的状态机
  * @Date 2022/10/27
