@@ -40,7 +40,7 @@ public class Waitress {
         while (iterator.hasNext()) {
             System.out.println(iterator.next());
         }
-        // Java5 中包含了 新形式的for语句，称为for/in。
+        // Java5 中包含了 新形式的for语句，称为for/in，底层基于迭代器实现。
         // 可以让你在一个集合或者一个数组中遍历，而且不需要显式的创建迭代器
         System.out.println("使用Java5的for/in 语法糖，遍历 cafeMean：");
         for (MeanItem menu : cafeMenu) {
